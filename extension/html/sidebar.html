@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntelliWrite Companion Sidebar</title>
+  <link rel="stylesheet" href="../css/sidebar.css">
+</head>
+<body>
+  <div class="sidebar-container">
+    <header class="sidebar-header">
+      <h1>IntelliWrite Companion</h1>
+      <button id="close-sidebar" class="icon-button">✕</button>
+    </header>
+    
+    <div class="sidebar-content">
+      <!-- Loading State -->
+      <div id="loading-container" class="state-container" style="display: none;">
+        <div class="spinner"></div>
+        <p id="loading-message">Processing...</p>
+      </div>
+      
+      <!-- Error State -->
+      <div id="error-container" class="state-container" style="display: none;">
+        <div class="error-icon">❌</div>
+        <h3>Error</h3>
+        <p id="error-message"></p>
+        <button id="dismiss-error" class="secondary-button">Dismiss</button>
+      </div>
+      
+      <!-- Paraphrase Result -->
+      <div id="paraphrase-container" class="state-container" style="display: none;">
+        <h3>Paraphrase Result</h3>
+        
+        <div class="text-comparison">
+          <div class="text-section">
+            <h4>Original Text</h4>
+            <div id="original-text" class="text-content"></div>
+          </div>
+          
+          <div class="text-section">
+            <h4>Paraphrased Text</h4>
+            <div id="paraphrased-text" class="text-content"></div>
+            <div class="action-buttons">
+              <button id="copy-paraphrased" class="icon-button" title="Copy to clipboard">📋</button>
+              <button id="replace-with-paraphrased" class="primary-button">Replace Original</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Translation Result -->
+      <div id="translation-container" class="state-container" style="display: none;">
+        <h3>Translation Result</h3>
+        
+        <div class="text-comparison">
+          <div class="text-section">
+            <h4>Original Text</h4>
+            <div id="original-translation-text" class="text-content"></div>
+          </div>
+          
+          <div class="text-section">
+            <h4>Translated Text (<span id="target-language-display">English</span>)</h4>
+            <div id="translated-text" class="text-content"></div>
+            <div class="action-buttons">
+              <button id="copy-translated" class="icon-button" title="Copy to clipboard">📋</button>
+              <button id="replace-with-translated" class="primary-button">Replace Original</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Humanize Result -->
+      <div id="humanize-container" class="state-container" style="display: none;">
+        <h3>Human-like Text</h3>
+        
+        <div class="text-comparison">
+          <div class="text-section">
+            <h4>Original Text</h4>
+            <div id="original-humanize-text" class="text-content"></div>
+          </div>
+          
+          <div class="text-section">
+            <h4>Human-like Text</h4>
+            <div id="humanized-text" class="text-content"></div>
+            <div class="action-buttons">
+              <button id="copy-humanized" class="icon-button" title="Copy to clipboard">📋</button>
+              <button id="replace-with-humanized" class="primary-button">Replace Original</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tone Change Result -->
+      <div id="tone-container" class="state-container" style="display: none;">
+        <h3>Tone Change Result</h3>
+        
+        <div class="text-comparison">
+          <div class="text-section">
+            <h4>Original Text</h4>
+            <div id="original-tone-text" class="text-content"></div>
+          </div>
+          
+          <div class="text-section">
+            <h4><span id="tone-display">Formal</span> Tone</h4>
+            <div id="tone-changed-text" class="text-content"></div>
+            <div class="action-buttons">
+              <button id="copy-tone-changed" class="icon-button" title="Copy to clipboard">📋</button>
+              <button id="replace-with-tone-changed" class="primary-button">Replace Original</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Text Generation -->
+      <div id="generate-container" class="state-container" style="display: none;">
+        <h3>Text Generation</h3>
+        
+        <div class="generate-form">
+          <div class="form-group">
+            <label for="sidebar-prompt">What would you like to write about?</label>
+            <textarea id="sidebar-prompt" rows="4" placeholder="Enter your prompt here..."></textarea>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sidebar-tone">Tone</label>
+              <select id="sidebar-tone">
+                <option value="Casual">Casual</option>
+                <option value="Formal">Formal</option>
+                <option value="Persuasive">Persuasive</option>
+                <option value="Confident">Confident</option>
+                <option value="Friendly">Friendly</option>
+                <option value="Empathetic">Empathetic</option>
+                <option value="Academic">Academic</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="sidebar-length">Length</label>
+              <select id="sidebar-length">
+                <option value="short">Short</option>
+                <option value="medium" selected>Medium</option>
+                <option value="long">Long</option>
+              </select>
+            </div>
+          </div>
+          
+          <button id="sidebar-generate-button" class="primary-button">Generate Text</button>
+        </div>
+        
+        <div id="sidebar-result" style="display: none;">
+          <h4>Generated Text</h4>
+          <div id="sidebar-result-text" class="text-content"></div>
+          <div class="action-buttons">
+            <button id="sidebar-copy-result" class="icon-button" title="Copy to clipboard">📋</button>
+            <button id="sidebar-insert-result" class="primary-button">Insert into Page</button>
+            <button id="sidebar-regenerate" class="secondary-button">Regenerate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="sidebar-footer">
+      <div class="tab-buttons">
+        <button id="show-generate-tab" class="tab-button active">Generate</button>
+        <button id="show-settings-tab" class="tab-button">Settings</button>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="../js/api.js"></script>
+  <script src="../js/sidebar.js"></script>
+</body>
+</html>
